@@ -7,27 +7,31 @@
 
 export const content = {
   meta: {
-    title: "Sandeep Sah — Full-Stack Developer",
+    title: "Tanmay Joddar — Full-Stack Developer",
     description:
-      "Portfolio of Sandeep Sah, a full-stack developer building fast, careful web products with React, Node and Postgres.",
+      "Portfolio of Tanmay Joddar, a full-stack developer building fast, careful web products with React, Node and Postgres.",
   },
 
-  /* PLACEHOLDER: your name, split for the hero */
-  name: { first: "SANDEEP", last: "SAH" },
+  /*
+   * Name used in hero. Mixed case — displayed exactly as written.
+   * `first` and `last` are joined with a space; the hero renders them
+   * as ONE single line at fit-width size.
+   */
+  name: { first: "Tanmay", last: "Joddar" },
 
   role: "Full-Stack Developer",
 
   /* HERO bottom-right, two lines */
   heroLines: ["// Web Developer", "Full-Stack Engineer"],
 
-  /* PLACEHOLDER: social links */
+  /* Fill in your real usernames below */
   socials: [
-    { label: "LinkedIn", href: "https://linkedin.com/in/" },
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "Instagram", href: "https://instagram.com/" },
+    { label: "LinkedIn",  href: "https://linkedin.com/in/tanmay-joddar" },
+    { label: "GitHub",    href: "https://github.com/tanmayjoddar" },
+    { label: "Instagram", href: "https://instagram.com/tanmayjoddar" },
   ],
 
-  /* PLACEHOLDER: tech names for the marquee */
+  /* Tech names for the marquee strip */
   marquee: [
     "React",
     "TypeScript",
@@ -41,7 +45,7 @@ export const content = {
 
   intro: {
     label: "( 01 Intro )",
-    /* Words wrapped in {} render in the accent colour */
+    /* Phrases in {curly braces} render in the accent colour */
     statement:
       "I build {digital architecture} that balances performant engineering with a {slow, intentional} aesthetic rhythm.",
     paragraph:
@@ -78,12 +82,19 @@ export const content = {
 
   work: {
     label: "( 03 Selected Work )",
-    /* PLACEHOLDER: replace with your real projects. Use real screenshots only. */
+    /*
+     * REPLACE with your real projects.
+     * title: displayed as-is (outline → solid on hover).
+     * tags: category / type string.
+     * year: 4-digit string.
+     * href: link to the live project or case study.
+     */
     projects: [
-      { number: "01", title: "AETHERIS", tags: "e-commerce / headless", year: "2024", href: "#" },
-      { number: "02", title: "VERIDIAN", tags: "dashboard / saas", year: "2023", href: "#" },
-      { number: "03", title: "NOCTUA", tags: "studio site / motion", year: "2023", href: "#" },
-      { number: "04", title: "KINETIC", tags: "fintech / mobile", year: "2022", href: "#" },
+      { number: "01", title: "Project One",   tags: "web app / full-stack",   year: "2024", href: "#" },
+      { number: "02", title: "Project Two",   tags: "dashboard / analytics",  year: "2024", href: "#" },
+      { number: "03", title: "Project Three", tags: "api / backend",          year: "2023", href: "#" },
+      { number: "04", title: "Project Four",  tags: "mobile / react native",  year: "2023", href: "#" },
+      { number: "05", title: "Project Five",  tags: "open source / tooling",  year: "2022", href: "#" },
     ],
   },
 
@@ -93,21 +104,21 @@ export const content = {
       "I started in backend work and drifted toward the front once I realised how much of a product's feel lives in the last ten percent.",
       "Now I take projects end to end: schema, API, interface, deploy. I work best with small teams who want to decide quickly.",
     ],
-    /* PLACEHOLDER: your city and IANA timezone for the live clock */
+    /* Your city and IANA timezone — used for the live clock */
     city: "Kolkata",
     timeZone: "Asia/Kolkata",
     timeline: [
-      { year: "2023", place: "Freelance", role: "Full-stack developer" },
+      { year: "2023", place: "Freelance",      role: "Full-stack developer" },
       { year: "2021", place: "Northwind Labs", role: "Senior engineer" },
-      { year: "2019", place: "Copper Studio", role: "Web developer" },
-      { year: "2018", place: "University", role: "Computer Science" },
+      { year: "2019", place: "Copper Studio",  role: "Web developer" },
+      { year: "2018", place: "University",     role: "Computer Science" },
     ],
   },
 
   contact: {
     label: "( 05 Contact )",
     heading: ["Let's work", "together"],
-    /* PLACEHOLDER: your email */
+    /* Replace with your real email */
     email: "hello@example.com",
     note: "Messages sent through this form reach my inbox only. Nothing is stored or shared.",
   },

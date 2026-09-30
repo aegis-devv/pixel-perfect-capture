@@ -1,79 +1,173 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { content } from "@/content";
-import portrait from "@/assets/portrait.png.asset.json";
-
-function MaskedWord({ word, offset }: { word: string; offset: number }) {
-  return (
-    <span className="flex justify-center">
-      {word.split("").map((char, i) => (
-        <span key={`${char}-${i}`} className="mask-line">
-          <span style={{ animationDelay: `${(offset + i) * 0.04 + 0.9}s` }}>{char}</span>
-        </span>
-      ))}
-    </span>
-  );
-}
+import portraitSrc from "@/assets/image.png";
 
 export function Hero() {
-  const [y, setY] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const measurerRef = useRef<HTMLSpanElement>(null);
+  const [fitFontSize, setFitFontSize] = useState<number | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setY(window.scrollY);
+    const onScroll = () => setScrollY(window.scrollY);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Responsive Fit-text: spans content width exactly on desktop AND mobile
+  useEffect(() => {
+    const updateSize = () => {
+      if (!containerRef.current || !measurerRef.current) return;
+      const availableWidth = containerRef.current.clientWidth;
+      const baseWidth = measurerRef.current.offsetWidth;
+      if (baseWidth > 0 && availableWidth > 0) {
+        const calculated = (availableWidth / baseWidth) * 100;
+        setFitFontSize(calculated);
+      }
+    };
+
+    updateSize();
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(updateSize);
+    }
+
+    const ro = new ResizeObserver(updateSize);
+    if (containerRef.current) ro.observe(containerRef.current);
+    window.addEventListener("resize", updateSize);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", updateSize);
+    };
+  }, []);
+
+  const fullName = `${content.name.first} ${content.name.last}`;
+
   return (
-    <section className="relative flex h-screen w-full items-center justify-center overflow-hidden border-b border-border">
-      <h1
-        className="absolute left-0 top-1/2 w-full -translate-y-1/2 select-none text-center text-[22vw] font-extrabold leading-[0.8] tracking-[-0.04em]"
-        style={{ transform: `translateY(calc(-50% + ${y * 0.12}px))` }}
+    <section
+      id="hero"
+      className="relative flex h-[100svh] min-h-[580px] w-full flex-col justify-between overflow-hidden border-b border-border select-none"
+      style={{
+        backgroundColor: "var(--paper)",
+        "--name-top": "58%",
+        "--portrait-h": "92svh",
+        "--portrait-x": "-37%",
+      } as React.CSSProperties}
+    >
+      {/* Hidden measurer span for responsive fit-text calculations */}
+      <span
+        ref={measurerRef}
+        aria-hidden
+        className="pointer-events-none absolute -left-[9999px] top-0 invisible whitespace-nowrap font-medium tracking-[-0.055em]"
+        style={{
+          fontFamily: '"Instrument Sans", sans-serif',
+          fontSize: "100px",
+          lineHeight: "0.85",
+        }}
       >
-        <span className="sr-only">
-          {content.name.first} {content.name.last}
-        </span>
-        <span aria-hidden className="block">
-          <MaskedWord word={content.name.first} offset={0} />
-          <MaskedWord word={content.name.last} offset={content.name.first.length} />
-        </span>
-      </h1>
+        {fullName}
+      </span>
 
+      {/* ── Content container with responsive horizontal padding ── */}
       <div
-        className="pointer-events-none relative z-10 h-[76vh] max-w-[92vw] animate-portrait-in"
-        style={{ transform: `translateY(${y * 0.3}px)` }}
+        ref={containerRef}
+        className="relative h-full w-full px-[clamp(16px,2.5vw,40px)] flex flex-col justify-between"
       >
-        <img
-          src={portrait.url}
-          alt={`Portrait of ${content.name.first} ${content.name.last}`}
-          className="h-full w-auto object-contain contrast-125 grayscale"
-        />
-      </div>
+        {/* Top spacer */}
+        <div className="pt-20 md:pt-24" />
 
-      <div className="absolute left-6 top-8 label-mono md:left-10">+ 01 / 03</div>
-      <div className="absolute bottom-8 right-6 label-mono md:right-10">L / R Trim</div>
+        {/* ── PORTRAIT CUTOUT: DEAD-CENTER IN THE MIDDLE, BLEEDING OFF BOTTOM ── */}
+        <div
+          className="pointer-events-none absolute bottom-0 z-10"
+          style={{
+            left: "50%",
+            transform: `translateX(var(--portrait-x, -37%)) translateY(${scrollY * 0.12}px)`,
+          }}
+        >
+          <img
+            src={portraitSrc}
+            alt={fullName}
+            className="w-auto max-w-none object-contain h-[70svh] md:h-[var(--portrait-h,92svh)] min-h-[460px] md:min-h-[560px]"
+            style={{
+              filter: "grayscale(1) contrast(1.18)",
+            }}
+          />
+        </div>
 
-      <ul className="absolute bottom-8 left-6 z-20 flex flex-col gap-2 md:left-10">
-        {content.socials.map((s) => (
-          <li key={s.label}>
-            <a
-              href={s.href}
-              target="_blank"
-              rel="noreferrer"
-              data-cursor="Open"
-              className="meta-mono underline-slide inline-flex items-center gap-2"
+        {/* ── GIANT NAME: ONE LINE ACROSS HERO WITH WHITE GLASSY FEEL OVER BLACK SHIRT ── */}
+        {/* Layer with mix-blend-mode: difference:
+            - Over off-white cream paper (#F9F8F3) -> Solid ink black!
+            - Over the black polo shirt (#121212) -> Glowing white glassy letters!
+            - Subtle text-shadow for a refined frosted glass bloom */}
+        <div
+          className="pointer-events-none absolute inset-x-0 z-20 select-none text-center px-[clamp(16px,2.5vw,40px)]"
+          style={{
+            top: "var(--name-top, 58%)",
+            transform: `translateY(calc(-50% + ${scrollY * 0.08}px))`,
+            mixBlendMode: "difference",
+          }}
+        >
+          <h1
+            className="w-full text-center whitespace-nowrap font-medium tracking-[-0.055em] leading-[0.85]"
+            style={{
+              fontSize: fitFontSize ? `${fitFontSize}px` : "clamp(34px, 11vw, 220px)",
+              fontFamily: '"Instrument Sans", sans-serif',
+              color: "#FFFFFF",
+              textShadow: "0 0 12px rgba(255, 255, 255, 0.4)",
+            }}
+          >
+            {fullName.split("").map((ch, i) => (
+              <span key={i} className="inline-block overflow-hidden leading-[0.85]">
+                <span
+                  className="inline-block"
+                  style={{
+                    animation: `mask-up 0.8s cubic-bezier(0.19,1,0.22,1) both`,
+                    animationDelay: `${i * 0.02}s`,
+                  }}
+                >
+                  {ch === " " ? "\u00A0" : ch}
+                </span>
+              </span>
+            ))}
+          </h1>
+        </div>
+
+        {/* ── Bottom-left: Social links ── */}
+        <ul className="absolute bottom-6 left-[clamp(16px,2.5vw,40px)] z-30 flex flex-col gap-0.5 md:bottom-10 md:gap-1">
+          {content.socials.map((s, i) => (
+            <li
+              key={s.label}
+              className="min-h-[36px] md:min-h-[44px] flex items-center"
+              style={{
+                animation: `mask-up 0.7s cubic-bezier(0.19,1,0.22,1) both`,
+                animationDelay: `${0.2 + i * 0.06}s`,
+              }}
             >
-              <span aria-hidden className="inline-block h-px w-4 bg-foreground" />
-              {s.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="Open"
+                className="group font-mono text-[13px] md:text-[14px] uppercase tracking-[0.08em] font-medium text-foreground inline-flex items-center gap-1.5 hover:text-accent transition-colors duration-300"
+              >
+                <span className="underline-slide">{s.label}</span>
+                <ArrowUpRight className="h-3.5 w-3.5 md:h-4 md:w-4 shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]" />
+              </a>
+            </li>
+          ))}
+        </ul>
 
-      <div className="absolute bottom-16 right-6 z-20 text-right md:right-10">
-        <p className="meta-mono text-accent">{content.heroLines[0]}</p>
-        <p className="mt-2 text-2xl font-medium tracking-[-0.03em] md:text-4xl">
-          {content.heroLines[1]}
-        </p>
+        {/* ── Bottom-right: Role lines with high contrast over the dark shirt ── */}
+        <div className="absolute bottom-6 right-[clamp(16px,2.5vw,40px)] z-30 flex flex-col items-end text-right md:bottom-10">
+          <p className="text-[clamp(18px,3vw,52px)] font-medium tracking-[-0.035em] leading-[1.05] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)]">
+            <span className="text-[#34D399] font-semibold">//</span> Web Developer
+          </p>
+          <p className="text-[clamp(18px,3vw,52px)] font-medium tracking-[-0.035em] leading-[1.05] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)]">
+            Full-Stack Engineer
+          </p>
+        </div>
       </div>
     </section>
   );

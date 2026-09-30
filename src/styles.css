@@ -1,3 +1,4 @@
+@import "@fontsource/instrument-sans/500.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -5,9 +6,12 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Warm Editorial Archive design system.
- * Warm off-white paper, ink black, single deep-green accent.
- * All colours are tokens; never hardcode colour utilities in components.
+ * ── Warm Editorial Archive ────────────────────────────────────────────
+ * Warm off-white #F9F8F3 paper, ink black #1A1A1A, deep green #0A4D3C.
+ * Static Instrument Sans 500 for stroke titles, IBM Plex Mono for labels.
+ * High contrast: secondary text uses #444444 (contrast >= 9:1 against #F9F8F3).
+ * Minimum text size: 13px across the entire application.
+ * ──────────────────────────────────────────────────────────────────────
  */
 
 @theme inline {
@@ -18,64 +22,79 @@
   --radius-2xl: 2px;
   --radius-3xl: 2px;
   --radius-4xl: 2px;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
+
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
+  --color-primary:            var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
+  --color-secondary:          var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
+  --color-muted:              var(--muted);
+  --color-muted-foreground:   var(--muted-foreground);
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+  --color-destructive:        var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-ink: var(--ink);
+  --color-border:             var(--border);
+  --color-input:              var(--input);
+  --color-ring:               var(--ring);
+
+  --color-ink:   var(--ink);
   --color-paper: var(--paper);
+
   --font-display: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 :root {
   --radius: 0px;
-  --paper: oklch(0.977 0.006 95);
-  --ink: oklch(0.205 0 0);
-  --background: var(--paper);
-  --foreground: var(--ink);
-  --card: oklch(0.96 0.008 95);
-  --card-foreground: var(--ink);
-  --popover: var(--paper);
-  --popover-foreground: var(--ink);
-  --primary: var(--ink);
-  --primary-foreground: var(--paper);
-  --secondary: oklch(0.945 0.008 95);
-  --secondary-foreground: var(--ink);
-  --muted: oklch(0.945 0.008 95);
-  --muted-foreground: oklch(0.55 0.006 95);
-  --accent: oklch(0.36 0.072 165);
-  --accent-foreground: var(--paper);
-  --destructive: oklch(0.505 0.18 27);
+
+  --paper: #F9F8F3;
+  --ink:   #1A1A1A;
+
+  --background:            var(--paper);
+  --foreground:            var(--ink);
+  --card:                  #F2F1EC;
+  --card-foreground:       var(--ink);
+  --popover:               var(--paper);
+  --popover-foreground:    var(--ink);
+  --primary:               var(--ink);
+  --primary-foreground:    var(--paper);
+  --secondary:             #ECEAE3;
+  --secondary-foreground:  var(--ink);
+  --muted:                 #ECEAE3;
+  --muted-foreground:      #444444;   /* High contrast secondary text >= 4.5:1 */
+  --accent:                #0A4D3C;   /* Deep green accent */
+  --accent-foreground:     #F9F8F3;
+  --destructive:           #B04030;
   --destructive-foreground: var(--paper);
-  --border: oklch(0.205 0 0 / 12%);
-  --input: oklch(0.205 0 0 / 20%);
-  --ring: oklch(0.36 0.072 165);
+  --border:                rgba(26, 26, 26, 0.12);
+  --input:                 rgba(26, 26, 26, 0.22);
+  --ring:                  #0A4D3C;
+
+  /* Hero CSS variables tuned for composition */
+  --name-top: 54%;
+  --portrait-h: 98svh;
+  --portrait-x: -46%;
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
+    box-sizing: border-box;
   }
 
   html {
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: auto;
   }
 
   body {
@@ -83,7 +102,12 @@
     color: var(--color-foreground);
     font-family: var(--font-display);
     font-size: 17px;
-    line-height: 1.5;
+    line-height: 1.55;
+    cursor: none;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    body { cursor: auto; }
   }
 
   ::selection {
@@ -92,25 +116,28 @@
   }
 
   :focus-visible {
-    outline: 1px solid var(--color-accent);
+    outline: 1.5px solid var(--color-accent);
     outline-offset: 3px;
   }
+
+  img { display: block; }
 }
 
-/* ── Typographic utilities ───────────────────────── */
+/* ── Typographic utilities (strict minimum 13px) ───────────────────────── */
 
 @utility label-mono {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: 14px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-accent);
+  font-weight: 500;
 }
 
 @utility meta-mono {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
+  font-size: 14px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -123,10 +150,23 @@
 
 @utility numeral-outline {
   color: transparent;
-  -webkit-text-stroke: 1px color-mix(in oklab, var(--color-foreground) 28%, transparent);
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--color-foreground) 30%, transparent);
   font-family: var(--font-mono);
   font-weight: 500;
-  line-height: 0.8;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+/* Static font clean outlined project titles without variable font contour overlap */
+@utility project-title-outline {
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  color: var(--color-background);
+  -webkit-text-stroke: 1.5px var(--color-foreground);
+  paint-order: stroke fill;
+  stroke-linejoin: round;
+  text-rendering: geometricPrecision;
+  transition: color 0.4s var(--ease-out-expo);
 }
 
 @utility underline-slide {
@@ -135,54 +175,38 @@
     content: "";
     position: absolute;
     left: 0;
-    bottom: -4px;
+    bottom: -3px;
     height: 1px;
     width: 100%;
     background: currentColor;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.4s var(--ease-out-expo);
+    transition: transform 0.45s var(--ease-out-expo);
   }
   &:hover::after {
     transform: scaleX(1);
   }
 }
 
-/* ── Motion ──────────────────────────────────────── */
+/* ── Animation keyframes ─────────────────────────────────────────────── */
 
 @keyframes mask-up {
-  from {
-    transform: translateY(105%);
-  }
-  to {
-    transform: translateY(0);
-  }
+  from { transform: translateY(105%); }
+  to   { transform: translateY(0);   }
 }
 
 @keyframes marquee-x {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+  from { transform: translateX(0);    }
+  to   { transform: translateX(-50%); }
 }
 
 @keyframes portrait-in {
-  from {
-    opacity: 0;
-    transform: scale(1.08);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(1.06); }
+  to   { opacity: 1; transform: scale(1);    }
 }
 
 @keyframes curtain-up {
-  to {
-    transform: translateY(-101%);
-  }
+  to { transform: translateY(-101%); }
 }
 
 @utility mask-line {
@@ -199,19 +223,18 @@
 }
 
 @utility animate-marquee-x {
-  animation: marquee-x 34s linear infinite;
+  animation: marquee-x 38s linear infinite;
 }
 
 @utility animate-curtain-up {
   animation: curtain-up 0.9s var(--ease-out-expo) forwards;
 }
 
-/* Scroll reveal: line mask + clip-path image wipe */
 @utility reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition:
-    opacity 0.9s var(--ease-out-expo),
+    opacity  0.9s var(--ease-out-expo),
     transform 0.9s var(--ease-out-expo);
 }
 
@@ -222,19 +245,19 @@
 
 @utility clip-reveal {
   clip-path: inset(0 0 100% 0);
-  transition: clip-path 1.2s var(--ease-out-expo);
+  transition: clip-path 1.4s var(--ease-out-expo);
 }
 
 @utility clip-reveal-in {
-  clip-path: inset(0 0 0 0);
+  clip-path: inset(0 0 0% 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    animation-delay: 0ms !important;
-    transition-duration: 0.001ms !important;
+    animation-duration:    0.001ms !important;
+    animation-delay:       0ms     !important;
+    transition-duration:   0.001ms !important;
   }
 }
