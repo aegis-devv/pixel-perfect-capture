@@ -1,65 +1,109 @@
 import { content } from "@/content";
 import { Reveal } from "./Reveal";
 
-/**
- * Full-height sticky service panels on desktop.
- * On mobile: smoothly stacked cards with natural scroll.
- * Outlined numeral on left, title + capabilities list on right.
- */
+const SKILL_TABLE = [
+  { category: "Languages", items: "C++, Go, JavaScript, TypeScript, PHP, Python, SQL" },
+  { category: "Frameworks", items: "Laravel, NestJS, Express.js, Django, React.js, Next.js" },
+  { category: "Databases", items: "PostgreSQL, MongoDB, MySQL, Redis, IndexedDB" },
+  { category: "Tools", items: "Docker, Nginx, GitHub Actions, Prisma, Drizzle ORM, Mongoose" },
+  {
+    category: "Concepts",
+    items:
+      "System Design, Microservices, REST APIs, WebSockets, WebRTC, Event-Driven Architecture, JWT Auth, RBAC, Real-Time Systems",
+  },
+];
+
 export function Services() {
   return (
-    <section id="services" className="border-t border-border">
-      {/* Section label */}
-      <div className="border-b border-border px-6 py-8 md:px-10">
-        <span className="label-mono">{content.services.label}</span>
+    <section
+      id="skills"
+      className="border-b border-border px-[clamp(18px,4vw,52px)] pt-[clamp(56px,8vw,112px)] pb-[clamp(56px,10vw,140px)]"
+    >
+      {/* Label */}
+      <div className="mb-12 border-b border-border pb-5 flex items-baseline justify-between">
+        <Reveal>
+          <span className="label-mono">{content.services.label}</span>
+        </Reveal>
+        <Reveal>
+          <span
+            style={{
+              fontFamily: '"IBM Plex Mono", monospace',
+              fontSize: "11px",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "var(--subtle)",
+            }}
+          >
+            {SKILL_TABLE.length} categories
+          </span>
+        </Reveal>
       </div>
 
-      {content.services.items.map((item, panelIdx) => (
-        <div
-          key={item.numeral}
-          className="relative md:sticky md:top-0 border-b border-border bg-background"
-          style={{ zIndex: 10 + panelIdx }}
-        >
-          <div className="grid min-h-[auto] md:min-h-screen grid-cols-12 items-center gap-y-10 gap-x-6 px-6 py-16 md:px-10 md:py-20">
-            {/* Outlined numeral */}
-            <div className="col-span-12 flex items-center md:col-span-4">
-              <span
-                className="numeral-outline select-none text-[28vw] md:text-[clamp(120px,20vw,260px)]"
-              >
-                {item.numeral}
-              </span>
-            </div>
+      {/* Editorial table — two columns */}
+      <div className="flex flex-col">
+        {SKILL_TABLE.map((row, i) => (
+          <Reveal key={row.category} delay={i * 35}>
+            <div
+              className="grid grid-cols-12 gap-x-6 py-6 border-b border-border items-baseline"
+            >
+              {/* Category name */}
+              <div className="col-span-12 md:col-span-3 mb-3 md:mb-0">
+                <span
+                  style={{
+                    fontFamily: '"IBM Plex Mono", monospace',
+                    fontSize: "11px",
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    color: "var(--subtle)",
+                    fontWeight: 500,
+                  }}
+                >
+                  {row.category}
+                </span>
+              </div>
 
-            {/* Content column */}
-            <div className="col-span-12 md:col-span-7 md:col-start-6">
-              <Reveal>
-                <h3 className="text-3xl sm:text-4xl font-semibold tracking-[-0.04em] md:text-[clamp(40px,5vw,72px)] text-foreground">
-                  {item.title}
-                </h3>
-                <p className="mt-4 md:mt-5 max-w-[46ch] text-[16px] md:text-[17px] leading-[1.65] text-[#444444]">
-                  {item.description}
+              {/* Skills text */}
+              <div className="col-span-12 md:col-span-9">
+                <p
+                  style={{
+                    fontFamily: '"Instrument Sans", sans-serif',
+                    fontWeight: 400,
+                    fontSize: "clamp(16px,1.8vw,22px)",
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.4,
+                    color: "var(--ink)",
+                  }}
+                >
+                  {row.items}
                 </p>
-              </Reveal>
-
-              {/* Capability list with hairline rows */}
-              <ul className="mt-8 md:mt-12">
-                {item.capabilities.map((cap, capIdx) => (
-                  <li key={cap} className="border-t border-border last:border-b">
-                    <div className="group flex cursor-default items-center justify-between py-4 md:py-5 transition-transform duration-[350ms] ease-out hover:translate-x-3">
-                      <span className="text-[16px] md:text-[18px] font-medium text-foreground">
-                        {cap}
-                      </span>
-                      <span className="font-mono text-[14px] text-[#444444] transition-colors duration-300 group-hover:text-accent font-medium">
-                        {String(capIdx + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              </div>
             </div>
+          </Reveal>
+        ))}
+      </div>
+
+      {/* Additional context — systems design focus */}
+      <Reveal delay={200} className="mt-16 md:mt-20">
+        <div className="grid grid-cols-12 gap-x-6">
+          <div className="col-span-12 md:col-span-7 md:col-start-4">
+            <p
+              style={{
+                fontFamily: '"Instrument Sans", sans-serif',
+                fontWeight: 400,
+                fontSize: "clamp(28px,4.5vw,62px)",
+                letterSpacing: "-0.04em",
+                lineHeight: 0.93,
+                color: "var(--ink)",
+              }}
+            >
+              Zero-allocation CDCs.{" "}
+              <span style={{ color: "var(--subtle)" }}>
+                Biometric pipelines. API schema gates.
+              </span>
+            </p>
           </div>
         </div>
-      ))}
+      </Reveal>
     </section>
   );
 }

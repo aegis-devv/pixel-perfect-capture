@@ -7,62 +7,117 @@ export function Contact() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(
-      `Project enquiry from ${form.name || "the site"}`,
-    );
-    const body = encodeURIComponent(
-      `${form.message}\n\n${form.name}\n${form.email}`,
-    );
+    const subject = encodeURIComponent(`Project enquiry from ${form.name || "the site"}`);
+    const body = encodeURIComponent(`${form.message}\n\n${form.name}\n${form.email}`);
     window.location.href = `mailto:${content.contact.email}?subject=${subject}&body=${body}`;
   };
 
-  const inputClass =
-    "w-full border-b border-input bg-transparent py-4 text-[17px] outline-none placeholder:text-muted-foreground focus:border-accent transition-colors duration-300";
+  const inputStyle = {
+    width: "100%",
+    borderBottom: "1px solid rgba(17,17,17,0.2)",
+    background: "transparent",
+    padding: "14px 0",
+    fontFamily: '"Instrument Sans", sans-serif',
+    fontSize: "17px",
+    letterSpacing: "-0.01em",
+    color: "var(--ink)",
+    outline: "none",
+    borderTop: "none",
+    borderLeft: "none",
+    borderRight: "none",
+    display: "block",
+    transition: "border-color 0.3s",
+  } as React.CSSProperties;
 
   return (
     <section
       id="contact"
-      className="border-t border-border px-6 py-32 md:px-10 md:py-48"
+      className="border-b border-border px-[clamp(18px,4vw,52px)] pt-[clamp(56px,8vw,112px)] pb-[clamp(56px,10vw,140px)]"
     >
+      {/* Label */}
       <Reveal>
         <span className="label-mono">{content.contact.label}</span>
       </Reveal>
 
-      {/* Massive headline */}
-      <Reveal delay={60} className="mt-10">
-        <h2 className="display-xl text-pretty">
+      {/* Giant headline */}
+      <Reveal delay={50} className="mt-8">
+        <h2
+          style={{
+            fontFamily: '"Instrument Sans", sans-serif',
+            fontWeight: 500,
+            fontSize: "clamp(44px,8vw,120px)",
+            letterSpacing: "-0.05em",
+            lineHeight: 0.9,
+            color: "var(--ink)",
+          }}
+        >
           {content.contact.heading[0]}
           <br />
           {content.contact.heading[1]}
         </h2>
       </Reveal>
 
-      {/* Email with slide-marquee hover effect */}
-      <Reveal delay={130} className="mt-12">
+      {/* Direct email */}
+      <Reveal delay={110} className="mt-10">
         <a
           href={`mailto:${content.contact.email}`}
           data-cursor="Write"
           className="group inline-block overflow-hidden leading-none"
+          style={{
+            fontFamily: '"Instrument Sans", sans-serif',
+            fontSize: "clamp(18px,3vw,44px)",
+            letterSpacing: "-0.03em",
+            fontWeight: 500,
+          }}
         >
-          {/* Two lines stacked; both slide up on hover */}
-          <span className="block text-2xl font-medium tracking-[-0.02em] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-full md:text-4xl">
-            {content.contact.email}
-          </span>
-          <span className="block text-2xl font-medium tracking-[-0.02em] text-accent transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-full md:text-4xl">
+          <span
+            className="block"
+            style={{
+              color: "var(--ink)",
+              transition: "transform 0.45s var(--ease-out-expo)",
+            }}
+          >
             {content.contact.email}
           </span>
         </a>
       </Reveal>
 
+      {/* Phone */}
+      <Reveal delay={140} className="mt-3">
+        <a
+          href={`tel:${content.contact.phone}`}
+          style={{
+            fontFamily: '"IBM Plex Mono", monospace',
+            fontSize: "13px",
+            letterSpacing: "0.06em",
+            color: "var(--subtle)",
+          }}
+        >
+          {content.contact.phone}
+        </a>
+      </Reveal>
+
       {/* Form + socials */}
-      <div className="mt-24 grid grid-cols-12 gap-10">
+      <div className="mt-20 grid grid-cols-12 gap-10">
         {/* Form */}
         <form onSubmit={onSubmit} className="col-span-12 md:col-span-6">
           <label className="block">
-            <span className="meta-mono text-muted-foreground">Name</span>
+            <span
+              style={{
+                fontFamily: '"IBM Plex Mono", monospace',
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "var(--subtle)",
+                display: "block",
+                marginBottom: "4px",
+              }}
+            >
+              Name
+            </span>
             <input
               required
-              className={inputClass}
+              style={inputStyle}
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Your name"
@@ -70,11 +125,23 @@ export function Contact() {
           </label>
 
           <label className="mt-8 block">
-            <span className="meta-mono text-muted-foreground">Email</span>
+            <span
+              style={{
+                fontFamily: '"IBM Plex Mono", monospace',
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "var(--subtle)",
+                display: "block",
+                marginBottom: "4px",
+              }}
+            >
+              Email
+            </span>
             <input
               required
               type="email"
-              className={inputClass}
+              style={inputStyle}
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               placeholder="you@company.com"
@@ -82,59 +149,117 @@ export function Contact() {
           </label>
 
           <label className="mt-8 block">
-            <span className="meta-mono text-muted-foreground">Message</span>
+            <span
+              style={{
+                fontFamily: '"IBM Plex Mono", monospace',
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "var(--subtle)",
+                display: "block",
+                marginBottom: "4px",
+              }}
+            >
+              Message
+            </span>
             <textarea
               required
-              rows={4}
-              className={`${inputClass} resize-none`}
+              rows={5}
+              style={{ ...inputStyle, resize: "none" }}
               value={form.message}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
-              placeholder="What are you building?"
+              placeholder="Tell me about the project..."
             />
           </label>
 
-          {/* Submit — same ghost fill-from-bottom pattern as the CTA */}
           <button
             type="submit"
             data-cursor="Send"
-            className="group relative mt-10 inline-flex overflow-hidden border border-foreground/20 px-8 py-4"
+            className="group relative mt-9 inline-flex overflow-hidden border border-foreground/20 px-7 py-[14px]"
           >
             <span
               aria-hidden
-              className="absolute inset-x-0 bottom-0 h-0 bg-accent transition-[height] duration-500 ease-out group-hover:h-full"
+              className="absolute inset-x-0 bottom-0 bg-foreground"
+              style={{
+                height: 0,
+                transition: "height 0.45s var(--ease-out-expo)",
+              }}
             />
-            <span className="meta-mono relative z-10 transition-colors duration-500 group-hover:text-accent-foreground">
+            <span
+              className="relative z-10"
+              style={{
+                fontFamily: '"IBM Plex Mono", monospace',
+                fontSize: "11px",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                fontWeight: 500,
+                color: "var(--ink)",
+                transition: "color 0.45s",
+              }}
+            >
               Send message
             </span>
           </button>
 
-          <p className="meta-mono mt-6 max-w-[44ch] leading-[1.7] text-muted-foreground">
+          <p
+            className="mt-5"
+            style={{
+              fontFamily: '"IBM Plex Mono", monospace',
+              fontSize: "11px",
+              letterSpacing: "0.06em",
+              color: "var(--subtle)",
+              lineHeight: 1.7,
+              maxWidth: "42ch",
+            }}
+          >
             {content.contact.note}
           </p>
         </form>
 
-        {/* Social links */}
-        <ul className="col-span-12 flex flex-col justify-start gap-0 md:col-span-4 md:col-start-9 md:justify-end">
-          {content.socials.map((s) => (
-            <li key={s.label} className="border-t border-border last:border-b">
-              <a
-                href={s.href}
-                target="_blank"
-                rel="noreferrer"
-                data-cursor="Open"
-                className="group flex items-center justify-between py-5 transition-transform duration-500 ease-out hover:translate-x-3"
-              >
-                <span className="text-[17px] font-medium">{s.label}</span>
-                <span
-                  aria-hidden
-                  className="meta-mono text-muted-foreground transition-colors duration-300 group-hover:text-accent"
+        {/* Social + contact list */}
+        <div className="col-span-12 md:col-span-4 md:col-start-9 flex flex-col justify-start">
+          <ul>
+            {content.socials.map((s) => (
+              <li key={s.label} className="border-t border-border last:border-b">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cursor="Open"
+                  className="flex items-center justify-between py-5"
+                  style={{ transition: "padding-left 0.35s var(--ease-out-expo)" }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.paddingLeft = "12px";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.paddingLeft = "0px";
+                  }}
                 >
-                  ↗
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
+                  <span
+                    style={{
+                      fontFamily: '"Instrument Sans", sans-serif',
+                      fontSize: "17px",
+                      fontWeight: 500,
+                      letterSpacing: "-0.01em",
+                      color: "var(--ink)",
+                    }}
+                  >
+                    {s.label}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: '"IBM Plex Mono", monospace',
+                      fontSize: "12px",
+                      color: "var(--subtle)",
+                    }}
+                  >
+                    ↗
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

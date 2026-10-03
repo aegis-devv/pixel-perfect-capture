@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { content } from "@/content";
 import portraitSrc from "@/assets/image.png";
 
@@ -15,23 +14,18 @@ export function Hero() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Responsive Fit-text: spans content width exactly on desktop AND mobile
   useEffect(() => {
     const updateSize = () => {
       if (!containerRef.current || !measurerRef.current) return;
       const availableWidth = containerRef.current.clientWidth;
       const baseWidth = measurerRef.current.offsetWidth;
       if (baseWidth > 0 && availableWidth > 0) {
-        const calculated = (availableWidth / baseWidth) * 100;
-        setFitFontSize(calculated);
+        setFitFontSize((availableWidth / baseWidth) * 100);
       }
     };
 
     updateSize();
-
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(updateSize);
-    }
+    if (document.fonts?.ready) document.fonts.ready.then(updateSize);
 
     const ro = new ResizeObserver(updateSize);
     if (containerRef.current) ro.observe(containerRef.current);
@@ -48,125 +42,159 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex h-[100svh] min-h-[580px] w-full flex-col justify-between overflow-hidden border-b border-border select-none"
-      style={{
-        backgroundColor: "var(--paper)",
-        "--name-top": "58%",
-        "--portrait-h": "92svh",
-        "--portrait-x": "-37%",
-      } as React.CSSProperties}
+      className="relative flex h-[100svh] min-h-[600px] w-full flex-col overflow-hidden border-b border-border select-none"
+      style={{ backgroundColor: "var(--paper)" }}
     >
-      {/* Hidden measurer span for responsive fit-text calculations */}
+      {/* Hidden measurer — font must match exactly */}
       <span
         ref={measurerRef}
         aria-hidden
-        className="pointer-events-none absolute -left-[9999px] top-0 invisible whitespace-nowrap font-medium tracking-[-0.055em]"
+        className="pointer-events-none absolute -left-[9999px] top-0 invisible whitespace-nowrap"
         style={{
           fontFamily: '"Instrument Sans", sans-serif',
+          fontWeight: 500,
           fontSize: "100px",
-          lineHeight: "0.85",
+          letterSpacing: "-0.045em",
+          lineHeight: 1,
         }}
       >
         {fullName}
       </span>
 
-      {/* ── Content container with responsive horizontal padding ── */}
+      {/* Padding container */}
       <div
         ref={containerRef}
-        className="relative h-full w-full px-[clamp(16px,2.5vw,40px)] flex flex-col justify-between"
+        className="relative h-full w-full px-[clamp(18px,4vw,52px)] flex flex-col justify-between"
       >
-        {/* Top spacer */}
-        <div className="pt-20 md:pt-24" />
+        {/* Top nav spacer */}
+        <div className="pt-[72px] md:pt-20" />
 
-        {/* ── PORTRAIT CUTOUT: DEAD-CENTER IN THE MIDDLE, BLEEDING OFF BOTTOM ── */}
+        {/* ── PORTRAIT — centered, anchored to bottom ── */}
         <div
-          className="pointer-events-none absolute bottom-0 z-10"
+          className="pointer-events-none absolute bottom-0 left-1/2 z-10 flex items-end"
           style={{
-            left: "50%",
-            transform: `translateX(var(--portrait-x, -37%)) translateY(${scrollY * 0.12}px)`,
+            transform: `translateX(-50%) translateY(${scrollY * 0.1}px)`,
+            animation: "portrait-in 1.2s cubic-bezier(0.16,1,0.3,1) both",
+            animationDelay: "0.1s",
           }}
         >
           <img
             src={portraitSrc}
             alt={fullName}
-            className="w-auto max-w-none object-contain h-[70svh] md:h-[var(--portrait-h,92svh)] min-h-[460px] md:min-h-[560px]"
+            draggable={false}
+            className="w-auto max-w-none object-contain"
             style={{
-              filter: "grayscale(1) contrast(1.18)",
+              height: "clamp(420px, 82svh, 900px)",
+              filter: "grayscale(1) contrast(1.2)",
             }}
           />
         </div>
 
-        {/* ── GIANT NAME: ONE LINE ACROSS HERO WITH WHITE GLASSY FEEL OVER BLACK SHIRT ── */}
-        {/* Layer with mix-blend-mode: difference:
-            - Over off-white cream paper (#F9F8F3) -> Solid ink black!
-            - Over the black polo shirt (#121212) -> Glowing white glassy letters!
-            - Subtle text-shadow for a refined frosted glass bloom */}
+        {/* ── NAME — Instrument Sans 500, spans full width ── */}
+        {/*
+          mix-blend-mode: difference
+          On light paper: renders as near-black ink
+          On dark clothing: renders as bright luminous white
+          This is the core visual effect — identical on mobile & desktop
+        */}
         <div
-          className="pointer-events-none absolute inset-x-0 z-20 select-none text-center px-[clamp(16px,2.5vw,40px)]"
+          className="pointer-events-none absolute inset-x-[clamp(18px,4vw,52px)] z-20 select-none"
           style={{
-            top: "var(--name-top, 58%)",
-            transform: `translateY(calc(-50% + ${scrollY * 0.08}px))`,
+            top: "64%",
+            transform: `translateY(calc(-50% + ${scrollY * 0.05}px))`,
             mixBlendMode: "difference",
           }}
         >
-          <h1
-            className="w-full text-center whitespace-nowrap font-medium tracking-[-0.055em] leading-[0.85]"
+          <div
+            className="w-full whitespace-nowrap leading-none"
             style={{
-              fontSize: fitFontSize ? `${fitFontSize}px` : "clamp(34px, 11vw, 220px)",
               fontFamily: '"Instrument Sans", sans-serif',
+              fontWeight: 500,
+              fontSize: fitFontSize ? `${fitFontSize}px` : "clamp(42px,11.5vw,200px)",
+              letterSpacing: "-0.045em",
               color: "#FFFFFF",
-              textShadow: "0 0 12px rgba(255, 255, 255, 0.4)",
             }}
           >
             {fullName.split("").map((ch, i) => (
-              <span key={i} className="inline-block overflow-hidden leading-[0.85]">
+              <span key={i} className="inline-block overflow-hidden" style={{ lineHeight: 0.88 }}>
                 <span
                   className="inline-block"
                   style={{
-                    animation: `mask-up 0.8s cubic-bezier(0.19,1,0.22,1) both`,
-                    animationDelay: `${i * 0.02}s`,
+                    animation: "mask-up 1s cubic-bezier(0.16,1,0.3,1) both",
+                    animationDelay: `${0.08 + i * 0.028}s`,
                   }}
                 >
                   {ch === " " ? "\u00A0" : ch}
                 </span>
               </span>
             ))}
-          </h1>
+          </div>
         </div>
 
-        {/* ── Bottom-left: Social links ── */}
-        <ul className="absolute bottom-6 left-[clamp(16px,2.5vw,40px)] z-30 flex flex-col gap-0.5 md:bottom-10 md:gap-1">
-          {content.socials.map((s, i) => (
-            <li
-              key={s.label}
-              className="min-h-[36px] md:min-h-[44px] flex items-center"
+        {/* ── BOTTOM ROW ── */}
+        <div className="relative z-30 flex items-end justify-between pb-6 md:pb-9">
+          {/* Left — Social links */}
+          <ul className="flex flex-col gap-[6px]">
+            {content.socials.map((s, i) => (
+              <li
+                key={s.label}
+                style={{
+                  animation: "mask-up 0.8s cubic-bezier(0.16,1,0.3,1) both",
+                  animationDelay: `${0.6 + i * 0.07}s`,
+                }}
+              >
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="Open"
+                  className="group inline-flex items-center gap-2"
+                >
+                  <span
+                    className="font-mono text-[11px] md:text-[12px] text-[var(--subtle)]"
+                    style={{ letterSpacing: "0.06em" }}
+                  >
+                    0{i + 1}
+                  </span>
+                  <span
+                    className="underline-slide font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] font-medium text-foreground"
+                  >
+                    {s.label}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {/* Right — Role descriptor */}
+          <div
+            className="flex flex-col items-end text-right"
+            style={{
+              animation: "mask-up 0.8s cubic-bezier(0.16,1,0.3,1) both",
+              animationDelay: "0.8s",
+            }}
+          >
+            <p
+              className="font-medium text-foreground leading-[1.05]"
               style={{
-                animation: `mask-up 0.7s cubic-bezier(0.19,1,0.22,1) both`,
-                animationDelay: `${0.2 + i * 0.06}s`,
+                fontFamily: '"Instrument Sans", sans-serif',
+                fontSize: "clamp(14px,2.6vw,42px)",
+                letterSpacing: "-0.03em",
               }}
             >
-              <a
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                data-cursor="Open"
-                className="group font-mono text-[13px] md:text-[14px] uppercase tracking-[0.08em] font-medium text-foreground inline-flex items-center gap-1.5 hover:text-accent transition-colors duration-300"
-              >
-                <span className="underline-slide">{s.label}</span>
-                <ArrowUpRight className="h-3.5 w-3.5 md:h-4 md:w-4 shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-[3px] group-hover:-translate-y-[3px]" />
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        {/* ── Bottom-right: Role lines with high contrast over the dark shirt ── */}
-        <div className="absolute bottom-6 right-[clamp(16px,2.5vw,40px)] z-30 flex flex-col items-end text-right md:bottom-10">
-          <p className="text-[clamp(18px,3vw,52px)] font-medium tracking-[-0.035em] leading-[1.05] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)]">
-            <span className="text-[#34D399] font-semibold">//</span> Web Developer
-          </p>
-          <p className="text-[clamp(18px,3vw,52px)] font-medium tracking-[-0.035em] leading-[1.05] text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.85)]">
-            Full-Stack Engineer
-          </p>
+              <span className="text-accent">//</span> Full-Stack Engineer
+            </p>
+            <p
+              className="font-medium text-foreground leading-[1.05]"
+              style={{
+                fontFamily: '"Instrument Sans", sans-serif',
+                fontSize: "clamp(14px,2.6vw,42px)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              Systems Architecture
+            </p>
+          </div>
         </div>
       </div>
     </section>

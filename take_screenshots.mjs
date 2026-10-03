@@ -7,19 +7,32 @@ async function sleep(ms) {
 }
 
 async function capture() {
-  const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-  const chrome = spawn(chromePath, [
+  const browserPath = fs.existsSync("C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe")
+    ? "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+    : "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+
+  const tmpProfile = path.resolve("C:\\Users\\Tanmay Joddar\\.gemini\\antigravity\\brain\\b849ffd6-4226-4550-9f74-f626d63d7c33\\scratch\\edge_profile");
+  if (!fs.existsSync(tmpProfile)) fs.mkdirSync(tmpProfile, { recursive: true });
+
+  const chrome = spawn(browserPath, [
     "--headless=new",
-    "--remote-debugging-port=9222",
+    "--remote-debugging-port=9333",
+    `--user-data-dir=${tmpProfile}`,
     "--disable-gpu",
     "--no-sandbox",
     "--hide-scrollbars",
     "about:blank",
   ]);
 
-  await sleep(1500);
+  let targets = null;
+  for (let i = 0; i < 20; i++) {
+    await sleep(400);
+    try {
+      targets = await fetch("http://127.0.0.1:9333/json/list").then((r) => r.json());
+      if (targets && targets.length > 0) break;
+    } catch {}
+  }
 
-  const targets = await fetch("http://127.0.0.1:9222/json/list").then((r) => r.json());
   const wsUrl = targets[0]?.webSocketDebuggerUrl;
   if (!wsUrl) {
     console.error("No wsUrl found", targets);

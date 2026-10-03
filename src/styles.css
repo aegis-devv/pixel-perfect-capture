@@ -1,4 +1,6 @@
+@import "@fontsource/instrument-sans/400.css";
 @import "@fontsource/instrument-sans/500.css";
+@import "@fontsource/instrument-sans/600.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -6,83 +8,82 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * ── Warm Editorial Archive ────────────────────────────────────────────
- * Warm off-white #F9F8F3 paper, ink black #1A1A1A, deep green #0A4D3C.
- * Static Instrument Sans 500 for stroke titles, IBM Plex Mono for labels.
- * High contrast: secondary text uses #444444 (contrast >= 9:1 against #F9F8F3).
- * Minimum text size: 13px across the entire application.
+ * ── WARM EDITORIAL ARCHIVE ────────────────────────────────────────────
+ *  Paper   #F5F4EE  — true warm off-white (slightly warmer than before)
+ *  Ink     #111111  — near-black (slightly richer than #1A1A1A)
+ *  Accent  #0A4D3C  — deep forest green
+ *  Mono    IBM Plex Mono for ALL labels, dates, numbers, metadata
+ *  Display Instrument Sans 500/600 for ALL headlines
+ *  Contrast: muted text #5A5A5A for secondary info
  * ──────────────────────────────────────────────────────────────────────
  */
 
 @theme inline {
   --radius-sm: 0px;
   --radius-md: 0px;
-  --radius-lg: 2px;
-  --radius-xl: 2px;
-  --radius-2xl: 2px;
-  --radius-3xl: 2px;
-  --radius-4xl: 2px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
 
-  --color-background:         var(--background);
-  --color-foreground:         var(--foreground);
-  --color-card:               var(--card);
-  --color-card-foreground:    var(--card-foreground);
-  --color-popover:            var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary:            var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary:          var(--secondary);
+  --color-background:           var(--background);
+  --color-foreground:           var(--foreground);
+  --color-card:                 var(--card);
+  --color-card-foreground:      var(--card-foreground);
+  --color-popover:              var(--popover);
+  --color-popover-foreground:   var(--popover-foreground);
+  --color-primary:              var(--primary);
+  --color-primary-foreground:   var(--primary-foreground);
+  --color-secondary:            var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted:              var(--muted);
-  --color-muted-foreground:   var(--muted-foreground);
-  --color-accent:             var(--accent);
-  --color-accent-foreground:  var(--accent-foreground);
-  --color-destructive:        var(--destructive);
+  --color-muted:                var(--muted);
+  --color-muted-foreground:     var(--muted-foreground);
+  --color-accent:               var(--accent);
+  --color-accent-foreground:    var(--accent-foreground);
+  --color-destructive:          var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  --color-border:             var(--border);
-  --color-input:              var(--input);
-  --color-ring:               var(--ring);
+  --color-border:               var(--border);
+  --color-input:                var(--input);
+  --color-ring:                 var(--ring);
 
-  --color-ink:   var(--ink);
-  --color-paper: var(--paper);
+  --color-ink:    var(--ink);
+  --color-paper:  var(--paper);
+  --color-subtle: var(--subtle);
 
   --font-display: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
 
-  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 :root {
   --radius: 0px;
 
-  --paper: #F9F8F3;
-  --ink:   #1A1A1A;
+  --paper:    #F5F4EE;
+  --ink:      #111111;
+  --subtle:   #5A5A5A;
 
-  --background:            var(--paper);
-  --foreground:            var(--ink);
-  --card:                  #F2F1EC;
-  --card-foreground:       var(--ink);
-  --popover:               var(--paper);
-  --popover-foreground:    var(--ink);
-  --primary:               var(--ink);
-  --primary-foreground:    var(--paper);
-  --secondary:             #ECEAE3;
-  --secondary-foreground:  var(--ink);
-  --muted:                 #ECEAE3;
-  --muted-foreground:      #444444;   /* High contrast secondary text >= 4.5:1 */
-  --accent:                #0A4D3C;   /* Deep green accent */
-  --accent-foreground:     #F9F8F3;
-  --destructive:           #B04030;
+  --background:             var(--paper);
+  --foreground:             var(--ink);
+  --card:                   #EFEDE5;
+  --card-foreground:        var(--ink);
+  --popover:                var(--paper);
+  --popover-foreground:     var(--ink);
+  --primary:                var(--ink);
+  --primary-foreground:     var(--paper);
+  --secondary:              #E8E6DE;
+  --secondary-foreground:   var(--ink);
+  --muted:                  #E8E6DE;
+  --muted-foreground:       #5A5A5A;
+  --accent:                 #0A4D3C;
+  --accent-foreground:      #F5F4EE;
+  --destructive:            #8B2828;
   --destructive-foreground: var(--paper);
-  --border:                rgba(26, 26, 26, 0.12);
-  --input:                 rgba(26, 26, 26, 0.22);
-  --ring:                  #0A4D3C;
-
-  /* Hero CSS variables tuned for composition */
-  --name-top: 54%;
-  --portrait-h: 98svh;
-  --portrait-x: -46%;
+  --border:                 rgba(17, 17, 17, 0.1);
+  --input:                  rgba(17, 17, 17, 0.18);
+  --ring:                   #0A4D3C;
 }
 
 @layer base {
@@ -95,6 +96,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: auto;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   }
 
   body {
@@ -102,8 +104,9 @@
     color: var(--color-foreground);
     font-family: var(--font-display);
     font-size: 17px;
-    line-height: 1.55;
+    line-height: 1.6;
     cursor: none;
+    font-weight: 400;
   }
 
   @media (hover: none), (pointer: coarse) {
@@ -111,87 +114,98 @@
   }
 
   ::selection {
-    background-color: var(--color-accent);
-    color: var(--color-accent-foreground);
+    background-color: var(--color-ink);
+    color: var(--color-paper);
   }
 
   :focus-visible {
-    outline: 1.5px solid var(--color-accent);
-    outline-offset: 3px;
+    outline: 1px solid var(--color-accent);
+    outline-offset: 4px;
   }
 
   img { display: block; }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
-/* ── Typographic utilities (strict minimum 13px) ───────────────────────── */
+/* ── Typographic utilities ─────────────────────────────────────────────── */
 
+/* Section label: ( 01 Label ) in IBM Plex Mono */
 @utility label-mono {
   font-family: var(--font-mono);
-  font-size: 14px;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-accent);
   font-weight: 500;
 }
 
+/* Metadata text in IBM Plex Mono */
 @utility meta-mono {
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-weight: 400;
 }
 
+/* Large display headlines */
 @utility display-xl {
-  font-size: clamp(48px, 7vw, 120px);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
-  font-weight: 600;
+  font-size: clamp(44px, 7vw, 112px);
+  line-height: 0.91;
+  letter-spacing: -0.045em;
+  font-weight: 500;
 }
 
+/* Outlined project / numeral text */
 @utility numeral-outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--color-foreground) 30%, transparent);
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-foreground) 25%, transparent);
   font-family: var(--font-mono);
   font-weight: 500;
   line-height: 0.85;
   letter-spacing: -0.04em;
 }
 
-/* Static font clean outlined project titles without variable font contour overlap */
+/* Outlined project title (static stroke without variable font issues) */
 @utility project-title-outline {
   font-family: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   font-weight: 500;
   color: var(--color-background);
-  -webkit-text-stroke: 1.5px var(--color-foreground);
+  -webkit-text-stroke: 1.2px var(--color-foreground);
   paint-order: stroke fill;
-  stroke-linejoin: round;
   text-rendering: geometricPrecision;
-  transition: color 0.4s var(--ease-out-expo);
+  transition: color 0.35s var(--ease-out-expo),
+              -webkit-text-stroke-color 0.35s var(--ease-out-expo);
 }
 
+/* Sliding underline on hover */
 @utility underline-slide {
   position: relative;
   &::after {
     content: "";
     position: absolute;
     left: 0;
-    bottom: -3px;
+    bottom: -2px;
     height: 1px;
     width: 100%;
     background: currentColor;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.45s var(--ease-out-expo);
+    transition: transform 0.4s var(--ease-out-expo);
   }
   &:hover::after {
     transform: scaleX(1);
   }
 }
 
-/* ── Animation keyframes ─────────────────────────────────────────────── */
+/* ── Animation keyframes ──────────────────────────────────────────────── */
 
 @keyframes mask-up {
-  from { transform: translateY(105%); }
+  from { transform: translateY(108%); }
   to   { transform: translateY(0);   }
 }
 
@@ -201,12 +215,17 @@
 }
 
 @keyframes portrait-in {
-  from { opacity: 0; transform: scale(1.06); }
-  to   { opacity: 1; transform: scale(1);    }
+  from { opacity: 0; transform: translateX(-50%) scale(1.04); }
+  to   { opacity: 1; transform: translateX(-50%) scale(1);    }
 }
 
 @keyframes curtain-up {
   to { transform: translateY(-101%); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @utility mask-line {
@@ -219,23 +238,24 @@
 }
 
 @utility animate-portrait-in {
-  animation: portrait-in 1.4s var(--ease-out-expo) both;
+  animation: portrait-in 1.3s var(--ease-out-expo) both;
 }
 
 @utility animate-marquee-x {
-  animation: marquee-x 38s linear infinite;
+  animation: marquee-x 40s linear infinite;
 }
 
 @utility animate-curtain-up {
   animation: curtain-up 0.9s var(--ease-out-expo) forwards;
 }
 
+/* Scroll reveal */
 @utility reveal {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(22px);
   transition:
-    opacity  0.9s var(--ease-out-expo),
-    transform 0.9s var(--ease-out-expo);
+    opacity  0.85s var(--ease-out-expo),
+    transform 0.85s var(--ease-out-expo);
 }
 
 @utility reveal-in {
@@ -243,21 +263,23 @@
   transform: none;
 }
 
+/* Clip-path reveal for images */
 @utility clip-reveal {
   clip-path: inset(0 0 100% 0);
-  transition: clip-path 1.4s var(--ease-out-expo);
+  transition: clip-path 1.3s var(--ease-out-expo);
 }
 
 @utility clip-reveal-in {
   clip-path: inset(0 0 0% 0);
 }
 
+/* ── Reduced motion ──────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration:    0.001ms !important;
-    animation-delay:       0ms     !important;
-    transition-duration:   0.001ms !important;
+    animation-duration:  0.001ms !important;
+    animation-delay:     0ms     !important;
+    transition-duration: 0.001ms !important;
   }
 }

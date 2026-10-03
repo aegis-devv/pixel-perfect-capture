@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import { content } from "@/content";
 
-const links = [
+const NAV_LINKS = [
   { label: "Projects", href: "#work" },
-  { label: "About",    href: "#about" },
-  { label: "Contact",  href: "#contact" },
+  { label: "Experience", href: "#experience" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
 ];
 
-/**
- * Fixed nav: hides on scroll-down, shows on scroll-up.
- * Nav: 14px, uppercase, tracking 0.08em, weight 500.
- * Left block: "Tanmay Joddar" 15px weight 600, "Full-Stack Developer" 13px #444.
- * Fully mobile responsive without wrapping collisions.
- */
 export function Nav() {
   const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     let last = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
       setHidden(y > 80 && y > last);
+      setScrolled(y > 24);
       last = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -29,28 +26,59 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full px-5 py-5 transition-transform duration-500 ease-[var(--ease-out-expo)] md:px-10 md:py-6 ${
-        hidden ? "-translate-y-full" : "translate-y-0"
-      }`}
+      className={`fixed left-0 top-0 z-50 w-full transition-transform duration-500`}
+      style={{
+        transform: hidden ? "translateY(-100%)" : "translateY(0)",
+        transitionTimingFunction: "var(--ease-out-expo)",
+        borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
+        background: scrolled ? "rgba(245,244,238,0.92)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
+      }}
     >
-      <nav className="flex items-center justify-between">
-        {/* Left — Name + Role */}
-        <div className="flex flex-col gap-0.5">
-          <a href="#hero" className="text-[15px] font-semibold text-foreground tracking-[-0.01em]">
+      <nav className="flex h-[60px] md:h-[68px] items-center justify-between px-[clamp(18px,4vw,52px)]">
+        {/* Left — identity */}
+        <div className="flex flex-col gap-0">
+          <a
+            href="#hero"
+            style={{
+              fontFamily: '"Instrument Sans", sans-serif',
+              fontWeight: 600,
+              fontSize: "15px",
+              letterSpacing: "-0.02em",
+              color: "var(--ink)",
+            }}
+          >
             {content.name.first} {content.name.last}
           </a>
-          <span className="hidden sm:inline-block font-mono text-[13px] text-[#444444] tracking-[0.06em]">
+          <span
+            className="hidden sm:block text-[var(--subtle)]"
+            style={{
+              fontFamily: '"IBM Plex Mono", monospace',
+              fontSize: "11px",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+            }}
+          >
             {content.role}
           </span>
         </div>
 
-        {/* Right — Nav links */}
-        <ul className="flex items-center gap-5 md:gap-8">
-          {links.map((l) => (
+        {/* Right — links */}
+        <ul className="flex items-center gap-5 md:gap-7">
+          {NAV_LINKS.map((l) => (
             <li key={l.label}>
               <a
                 href={l.href}
-                className="font-mono text-[13px] md:text-[14px] uppercase tracking-[0.08em] font-medium text-foreground underline-slide"
+                className="underline-slide"
+                style={{
+                  fontFamily: '"IBM Plex Mono", monospace',
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  fontWeight: 500,
+                  color: "var(--ink)",
+                }}
               >
                 {l.label}
               </a>

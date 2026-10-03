@@ -4,8 +4,10 @@ import { Nav } from "@/components/portfolio/Nav";
 import { Hero } from "@/components/portfolio/Hero";
 import { Marquee } from "@/components/portfolio/Marquee";
 import { Intro } from "@/components/portfolio/Intro";
-import { Services } from "@/components/portfolio/Services";
 import { Work } from "@/components/portfolio/Work";
+import { Experience } from "@/components/portfolio/Experience";
+import { Services } from "@/components/portfolio/Services";
+import { Achievements } from "@/components/portfolio/Achievements";
 import { About } from "@/components/portfolio/About";
 import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
@@ -20,36 +22,41 @@ function Index() {
 
   return (
     <>
-      {/* Custom cursor (desktop only) */}
+      {/* Custom cursor — desktop only, disabled on touch */}
       <Cursor />
 
-      {/* Fixed navigation */}
+      {/* Sticky navigation */}
       <Nav />
 
       <main>
-        {/* 1 — Hero: full viewport, warm paper bg, giant name + portrait */}
+        {/* 01 — Hero: full-viewport, portrait behind fit-width name */}
         <Hero />
 
-        {/* 2 — Marquee: tech/skill names strip between sections */}
+        {/* Scroll-reactive tech marquee strip */}
         <Marquee />
 
-        {/* 3 — Intro: editorial statement with line-by-line reveal */}
+        {/* 02 — Philosophy: editorial display statement */}
         <Intro />
 
-        {/* 4 — Services: sticky full-height panels with outlined numerals */}
-        <Services />
-
-        {/* 5 — Selected work: stacked project list */}
+        {/* 03 — Projects: Wavicle, apidrift */}
         <Work />
 
-        {/* 6 — About: bio + experience timeline + live clock */}
+        {/* 04 — Experience: NIC, Dailygroce */}
+        <Experience />
+
+        {/* 05 — Technical Skills: editorial table */}
+        <Services />
+
+        {/* 06 — Achievements: GSoC, hackathons */}
+        <Achievements />
+
+        {/* 07 — About: portrait + bio + education */}
         <About />
 
-        {/* 7 — Contact: headline + form + socials */}
+        {/* 08 — Contact: headline + form + socials */}
         <Contact />
       </main>
 
-      {/* Minimal footer */}
       <Footer />
     </>
   );
