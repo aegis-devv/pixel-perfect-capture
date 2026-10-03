@@ -17,10 +17,12 @@ export function Hero() {
   useEffect(() => {
     const updateSize = () => {
       if (!containerRef.current || !measurerRef.current) return;
+      // Use full clientWidth — name is inset-x-0 so it spans the full container
       const availableWidth = containerRef.current.clientWidth;
       const baseWidth = measurerRef.current.offsetWidth;
       if (baseWidth > 0 && availableWidth > 0) {
-        setFitFontSize((availableWidth / baseWidth) * 100);
+        // 0.97 gives ~3% breathing room so the trailing "r" is never clipped
+        setFitFontSize((availableWidth / baseWidth) * 97);
       }
     };
 
@@ -98,7 +100,7 @@ export function Hero() {
           This is the core visual effect — identical on mobile & desktop
         */}
         <div
-          className="pointer-events-none absolute inset-x-[clamp(18px,4vw,52px)] z-20 select-none"
+          className="pointer-events-none absolute inset-x-0 z-20 select-none"
           style={{
             top: "64%",
             transform: `translateY(calc(-50% + ${scrollY * 0.05}px))`,

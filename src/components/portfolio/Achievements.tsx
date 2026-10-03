@@ -1,87 +1,94 @@
 import { content } from "@/content";
 import { Reveal } from "./Reveal";
 
+const ITEMS = [
+  {
+    badge: "Open Source",
+    rank: "7 Merged PRs",
+    title: "GreedyBear — GSoC Organization",
+    detail: "Threat intelligence pipeline. PRs #885, #933, #974, #1010, #1005, #1178, #1217.",
+    href: "https://github.com/GreedyBear-Project/GreedyBear",
+    linkLabel: "View on GitHub",
+  },
+  {
+    badge: "Hackathon",
+    rank: "1st Place",
+    title: "Winner — Brain Battle 2.0",
+    detail: "Delivered winning software solution in a 24-hour coding competition.",
+    href: "https://unstop.com/certificate-preview/70114af0-19b9-464f-957f-68088c1aac08",
+    linkLabel: "Certificate",
+  },
+  {
+    badge: "Competitive",
+    rank: "Top 100 / 2,900+",
+    title: "HackHazards 2025",
+    detail: "Ranked top 100 finalists out of 2,900+ competing teams nationwide.",
+    href: "https://certificate.givemycertificate.com/c/5c24c0cf-ebe3-4e29-8455-57afff22f32b",
+    linkLabel: "Certificate",
+  },
+];
+
 export function Achievements() {
   return (
     <section
       id="achievements"
-      className="border-b border-border px-[clamp(18px,4vw,52px)] pt-[clamp(56px,8vw,112px)] pb-[clamp(56px,10vw,140px)]"
+      className="border-b border-border px-[clamp(18px,4vw,52px)] pt-[clamp(56px,8vw,110px)] pb-[clamp(56px,8vw,110px)]"
     >
-      {/* Label */}
-      <div className="mb-12 border-b border-border pb-5">
-        <Reveal>
-          <span className="label-mono">{content.achievements.label}</span>
-        </Reveal>
+      <div className="mb-10 border-b border-border pb-4">
+        <Reveal><span className="label-mono">{content.achievements.label}</span></Reveal>
       </div>
 
       <div className="flex flex-col">
-        {content.achievements.items.map((item, i) => (
-          <Reveal key={i} delay={i * 50}>
-            <div className="grid grid-cols-12 gap-x-6 py-8 md:py-10 border-b border-border items-start">
-              {/* Badge */}
-              <div className="col-span-12 md:col-span-2 mb-3 md:mb-0">
-                <span
-                  style={{
-                    fontFamily: '"IBM Plex Mono", monospace',
-                    fontSize: "10px",
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: "var(--accent)",
-                    fontWeight: 500,
-                    display: "block",
-                    paddingTop: "4px",
-                  }}
-                >
+        {ITEMS.map((item, i) => (
+          <Reveal key={i} delay={i * 55}>
+            <div className="grid grid-cols-12 gap-x-6 py-10 md:py-12 border-b border-border items-start">
+
+              {/* Left — badge + rank */}
+              <div className="col-span-12 md:col-span-3 flex flex-col gap-2 mb-4 md:mb-0">
+                <span style={{ fontFamily: '"IBM Plex Mono"', fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--subtle)" }}>
                   {item.badge}
+                </span>
+                <span style={{
+                  fontFamily: '"Instrument Sans"', fontWeight: 700,
+                  fontSize: "clamp(20px,2vw,28px)", letterSpacing: "-0.03em",
+                  color: "var(--accent)", lineHeight: 1,
+                }}>
+                  {item.rank}
                 </span>
               </div>
 
-              {/* Content */}
-              <div className="col-span-12 md:col-span-7">
-                <h3
-                  style={{
-                    fontFamily: '"Instrument Sans", sans-serif',
-                    fontWeight: 500,
-                    fontSize: "clamp(17px,2.2vw,26px)",
-                    letterSpacing: "-0.025em",
-                    lineHeight: 1.1,
-                    color: "var(--ink)",
-                    marginBottom: "8px",
-                  }}
-                >
+              {/* Middle — title + detail */}
+              <div className="col-span-12 md:col-span-6">
+                <h3 style={{
+                  fontFamily: '"Instrument Sans"', fontWeight: 600,
+                  fontSize: "clamp(18px,2.2vw,28px)", letterSpacing: "-0.03em",
+                  lineHeight: 1.1, color: "var(--ink)", marginBottom: "10px",
+                }}>
                   {item.title}
                 </h3>
-                <p
-                  style={{
-                    fontFamily: '"Instrument Sans", sans-serif',
-                    fontWeight: 400,
-                    fontSize: "15px",
-                    lineHeight: 1.6,
-                    color: "var(--subtle)",
-                  }}
-                >
-                  {item.description}
+                <p style={{
+                  fontFamily: '"Instrument Sans"', fontWeight: 400,
+                  fontSize: "15px", lineHeight: 1.65, color: "var(--subtle)",
+                }}>
+                  {item.detail}
                 </p>
               </div>
 
-              {/* Link */}
-              <div className="col-span-12 md:col-span-3 md:flex md:justify-end md:items-start">
+              {/* Right — link */}
+              <div className="col-span-12 md:col-span-3 md:flex md:justify-end md:items-start mt-4 md:mt-0">
                 <a
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cursor="Open"
-                  className="underline-slide inline-block mt-3 md:mt-1"
+                  className="underline-slide inline-block"
                   style={{
-                    fontFamily: '"IBM Plex Mono", monospace',
-                    fontSize: "10px",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "var(--subtle)",
-                    fontWeight: 500,
+                    fontFamily: '"IBM Plex Mono"', fontSize: 11,
+                    letterSpacing: "0.1em", textTransform: "uppercase",
+                    color: "var(--accent)", fontWeight: 600,
                   }}
                 >
-                  View Certificate
+                  {item.linkLabel} ↗
                 </a>
               </div>
             </div>

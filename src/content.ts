@@ -54,7 +54,7 @@ export const content = {
     statement:
       "I architect {low-latency distributed engines} and {resilient full-stack systems} that stay mathematically sound under heavy load.",
     paragraph:
-      "Information Technology engineer at UIT Burdwan (CGPA 8.40). Experienced in biometric attendance platforms at NIC, proof-based cache consistency in Go, and automated API schema drift detection with 1,000+ npm downloads.",
+      "B.Tech Information Technology, UIT Burdwan (8.40 CGPA). I've shipped a production biometric system at NIC, a proof-based Go cache engine clocking 1.7μs verifications, and an npm CLI used 1,000+ times. I work from schema to deployment.",
     cta: { label: "Explore Projects", href: "#work" },
   },
 

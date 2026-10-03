@@ -1,47 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 
-/**
- * Custom cursor: a small dot that grows into a labelled circle over [data-cursor] elements.
- * Hidden until the user actually moves their mouse to prevent any stray dots on load.
- * Disabled completely on touch/coarse-pointer devices.
- */
 export function Cursor() {
   const dot = useRef<HTMLDivElement | null>(null);
   const [label, setLabel] = useState<string | null>(null);
-  const [enabled, setEnabled] = useState(false);
-  const [hasMoved, setHasMoved] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    // Disable on touch/coarse pointer devices
     if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
-    setEnabled(true);
 
-    let tx = -100;
-    let ty = -100;
-    let cx = -100;
-    let cy = -100;
-    let raf = 0;
-    let movedOnce = false;
+    let tx = -200, ty = -200, cx = -200, cy = -200, raf = 0;
 
     const onMove = (e: PointerEvent) => {
       tx = e.clientX;
       ty = e.clientY;
-      if (!movedOnce) {
-        movedOnce = true;
-        cx = tx;
-        cy = ty;
-        setHasMoved(true);
-      }
-      const target = (e.target as HTMLElement | null)?.closest("[data-cursor]");
-      setLabel(target ? (target.getAttribute("data-cursor") ?? "") : null);
+      if (!visible) setVisible(true);
+      const el = (e.target as HTMLElement | null)?.closest("[data-cursor]");
+      setLabel(el ? (el.getAttribute("data-cursor") ?? "") : null);
     };
 
     const loop = () => {
-      if (movedOnce) {
-        cx += (tx - cx) * 0.18;
-        cy += (ty - cy) * 0.18;
-        if (dot.current) {
-          dot.current.style.transform = `translate3d(${cx}px,${cy}px,0) translate(-50%,-50%)`;
-        }
+      cx += (tx - cx) * 0.15;
+      cy += (ty - cy) * 0.15;
+      if (dot.current) {
+        dot.current.style.transform = `translate3d(${cx}px,${cy}px,0) translate(-50%,-50%)`;
       }
       raf = requestAnimationFrame(loop);
     };
@@ -53,9 +35,8 @@ export function Cursor() {
       window.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(raf);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (!enabled || !hasMoved) return null;
 
   const active = label !== null;
 
@@ -63,11 +44,21 @@ export function Cursor() {
     <div
       ref={dot}
       aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[90] hidden items-center justify-center rounded-full bg-accent text-accent-foreground transition-[width,height] duration-300 ease-out md:flex"
-      style={{ width: active ? 76 : 8, height: active ? 76 : 8 }}
+      className="pointer-events-none fixed left-0 top-0 z-[9999] hidden md:flex items-center justify-center rounded-full"
+      style={{
+        width: active ? 70 : 8,
+        height: active ? 70 : 8,
+        background: active ? "var(--ink)" : "var(--ink)",
+        opacity: visible ? 1 : 0,
+        transition: "width 0.25s var(--ease-out-expo), height 0.25s var(--ease-out-expo), opacity 0.3s",
+        willChange: "transform",
+      }}
     >
       {active && label ? (
-        <span className="font-mono text-[13px] uppercase tracking-[0.08em] font-medium text-accent-foreground">
+        <span style={{
+          fontFamily: '"IBM Plex Mono"', fontSize: 10, letterSpacing: "0.1em",
+          textTransform: "uppercase", fontWeight: 600, color: "var(--paper)",
+        }}>
           {label}
         </span>
       ) : null}

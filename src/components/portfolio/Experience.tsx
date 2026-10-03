@@ -1,108 +1,86 @@
 import { content } from "@/content";
 import { Reveal } from "./Reveal";
 
+/* Highlights numbers/metrics in accent color */
+function H({ children }: { children: string }) {
+  // Bold any numbers with units, percentages, or key technical terms
+  const parts = children.split(/([\d]+(?:\.\d+)?(?:ms|μs|%|M\+|\+|×|dims?)?|(?:0\.\d+)|(?:p95)|(?:SHA-256)|(?:1:1\/1:N)|(?:512-dim)|(?:5-tier)|(?:4 roles)|(?:8 custom)|(?:40\+)|(?:61%|85%)|(?:850ms|300ms)|(?:40%)|(?:60s))/g);
+  return (
+    <>
+      {parts.map((p, i) =>
+        i % 2 === 1 ? (
+          <strong key={i} style={{ color: "var(--ink)", fontWeight: 600 }}>
+            {p}
+          </strong>
+        ) : (
+          <span key={i}>{p}</span>
+        )
+      )}
+    </>
+  );
+}
+
 export function Experience() {
   return (
     <section
       id="experience"
-      className="border-b border-border px-[clamp(18px,4vw,52px)] pt-[clamp(56px,8vw,112px)] pb-[clamp(56px,10vw,140px)]"
+      className="border-b border-border px-[clamp(18px,4vw,52px)] pt-[clamp(56px,8vw,110px)] pb-[clamp(56px,8vw,110px)]"
     >
-      {/* Label */}
-      <div className="mb-12 border-b border-border pb-5">
+      <div className="mb-10 border-b border-border pb-4">
         <Reveal>
           <span className="label-mono">{content.experience.label}</span>
         </Reveal>
       </div>
 
-      <div className="flex flex-col gap-0">
+      <div className="flex flex-col">
         {content.experience.items.map((job, i) => (
           <Reveal key={i} delay={i * 60}>
-            <article className="border-b border-border py-10 md:py-12 grid grid-cols-12 gap-x-6 gap-y-6">
-              {/* Left — date + company metadata */}
+            <article className="border-b border-border py-12 md:py-16 grid grid-cols-12 gap-x-6 gap-y-8">
+              {/* Left — date/location */}
               <div className="col-span-12 md:col-span-3">
-                <p
-                  style={{
-                    fontFamily: '"IBM Plex Mono", monospace',
-                    fontSize: "11px",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "var(--subtle)",
-                    lineHeight: 1.7,
-                  }}
-                >
+                <p style={{ fontFamily: '"IBM Plex Mono"', fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--subtle)", lineHeight: 1.8 }}>
                   {job.period}
                 </p>
-                <p
-                  className="mt-1"
-                  style={{
-                    fontFamily: '"IBM Plex Mono", monospace',
-                    fontSize: "11px",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    color: "var(--subtle)",
-                  }}
-                >
+                <p className="mt-1" style={{ fontFamily: '"IBM Plex Mono"', fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--subtle)" }}>
                   {job.location}
                 </p>
               </div>
 
-              {/* Right — content */}
+              {/* Right — company + bullets */}
               <div className="col-span-12 md:col-span-9">
-                {/* Company + role */}
-                <div className="mb-6">
-                  <h3
-                    style={{
-                      fontFamily: '"Instrument Sans", sans-serif',
-                      fontWeight: 600,
-                      fontSize: "clamp(18px,2.8vw,32px)",
-                      letterSpacing: "-0.03em",
-                      lineHeight: 1.05,
-                      color: "var(--ink)",
-                    }}
-                  >
-                    {job.company}
-                  </h3>
-                  <p
-                    className="mt-1"
-                    style={{
-                      fontFamily: '"Instrument Sans", sans-serif',
-                      fontWeight: 400,
-                      fontSize: "15px",
-                      letterSpacing: "-0.01em",
-                      color: "var(--subtle)",
-                    }}
-                  >
-                    {job.role}
-                  </p>
-                </div>
+                {/* Company name — BIG */}
+                <h3
+                  style={{
+                    fontFamily: '"Instrument Sans", sans-serif',
+                    fontWeight: 700,
+                    fontSize: "clamp(26px,3.5vw,52px)",
+                    letterSpacing: "-0.04em",
+                    lineHeight: 1,
+                    color: "var(--ink)",
+                  }}
+                >
+                  {job.company}
+                </h3>
+                <p className="mt-2 mb-8" style={{ fontFamily: '"IBM Plex Mono"', fontSize: 11, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--accent)", fontWeight: 500 }}>
+                  {job.role}
+                </p>
 
-                {/* Bullets — editorial paragraph style, not list items */}
-                <div className="flex flex-col gap-3">
+                {/* Bullets — ink colored, readable */}
+                <div className="flex flex-col gap-4">
                   {job.bullets.map((b, bi) => (
                     <p
                       key={bi}
                       style={{
                         fontFamily: '"Instrument Sans", sans-serif',
                         fontWeight: 400,
-                        fontSize: "16px",
+                        fontSize: "clamp(15px,1.5vw,17px)",
                         lineHeight: 1.65,
-                        color: "var(--subtle)",
-                        paddingLeft: "0",
+                        color: "var(--ink)",
+                        paddingLeft: "20px",
+                        borderLeft: "2px solid var(--accent)",
                       }}
                     >
-                      {/* Thin hanging dash */}
-                      <span
-                        style={{
-                          fontFamily: '"IBM Plex Mono", monospace',
-                          fontSize: "12px",
-                          color: "var(--accent)",
-                          marginRight: "12px",
-                          userSelect: "none",
-                        }}
-                      >
-                        —
-                      </span>
-                      {b}
+                      <H>{b}</H>
                     </p>
                   ))}
                 </div>
